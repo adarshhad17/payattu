@@ -368,16 +368,16 @@ export default function DashboardPage() {
               return (
                 <div
                   key={p._id}
-                  className={`${isAdmin ? 'bg-white border-pink-200' : (p.koduthathTotal || 0) > 0 ? 'bg-gray-900 border-green-500' : 'bg-gray-900 border-pink-400'} rounded-3xl border shadow-lg overflow-hidden transition-all duration-300 ${inactive ? 'opacity-50' : ''} ${!isAdmin && (p.koduthathTotal || 0) > 0 ? 'opacity-75' : ''}`}
+                  className={`${isAdmin ? 'bg-gray-900 border-pink-400' : (p.koduthathTotal || 0) > 0 ? 'bg-gray-900 border-green-500' : 'bg-gray-900 border-pink-400'} rounded-3xl border shadow-lg overflow-hidden transition-all duration-300 ${inactive ? 'opacity-50' : ''} ${!isAdmin && (p.koduthathTotal || 0) > 0 ? 'opacity-75' : ''}`}
                 >
                   {/* Header */}
                   <div className="px-6 pt-8 pb-6">
                     {/* Name row — full width, no truncate */}
                     <div className="flex items-center gap-2 mb-3">
-                      <span className={`text-xs shrink-0 ${isAdmin ? 'text-yellow-600' : 'text-gray-500'}`}>#{String(idx + 1).padStart(2, '0')}</span>
-                      <p className={`text-xl font-medium capitalize leading-tight ${isAdmin ? 'text-pink-500' : 'text-yellow-400'}`}>{p.name}</p>
+                      <span className="text-xs shrink-0 text-gray-500">#{String(idx + 1).padStart(2, '0')}</span>
+                      <p className="text-xl font-medium capitalize leading-tight text-yellow-400">{p.name}</p>
                       {inactive && (
-                        <span className={`ml-1 inline-block text-xs px-2 py-0.5 rounded-full shrink-0 ${isAdmin ? 'bg-gray-100 text-gray-400' : 'bg-gray-800 text-gray-500'}`}>
+                        <span className="ml-1 inline-block text-xs px-2 py-0.5 rounded-full shrink-0 bg-gray-800 text-gray-500">
                           നിർത്തിവെച്ചത്
                         </span>
                       )}
@@ -392,14 +392,14 @@ export default function DashboardPage() {
                   </div>
 
                   {/* Stats */}
-                  <div className={`grid ${isAdmin ? 'grid-cols-3' : 'grid-cols-2'} border-t ${isAdmin ? 'border-gray-100' : 'border-gray-800'}`}>
-                    <div className={`px-5 py-5 text-center border-r ${isAdmin ? 'border-gray-100' : 'border-gray-800'}`}>
+                  <div className={`grid ${isAdmin ? 'grid-cols-3' : 'grid-cols-2'} border-t border-gray-800`}>
+                    <div className="px-5 py-5 text-center border-r border-gray-800">
                       <p className="text-xs text-red-500 mb-2 font-medium tracking-wide uppercase">കൊടുത്തത്</p>
-                      <p className={`text-2xl font-extrabold ${isAdmin ? 'text-gray-800' : 'text-white'}`}><span className="text-gray-500 text-base mr-1">₹</span>{p.iGive}</p>
+                      <p className="text-2xl font-extrabold text-white"><span className="text-gray-500 text-base mr-1">₹</span>{p.iGive}</p>
                     </div>
-                    <div className={`px-5 py-5 text-center ${isAdmin ? '' : ''}`}>
+                    <div className="px-5 py-5 text-center">
                       <p className="text-xs text-green-500 mb-2 font-medium tracking-wide uppercase">തന്നത്</p>
-                      <p className={`text-2xl font-extrabold ${isAdmin ? 'text-gray-800' : 'text-white'}`}><span className="text-gray-500 text-base mr-1">₹</span>{p.theyGive}</p>
+                      <p className="text-2xl font-extrabold text-white"><span className="text-gray-500 text-base mr-1">₹</span>{p.theyGive}</p>
                     </div>
                     {isAdmin && (
                       <div className="px-5 py-5 text-center">
@@ -466,12 +466,12 @@ export default function DashboardPage() {
                   {/* Actions — hidden on mobile */}
                   {isAdmin && (
                     <div
-                      className="hidden md:flex items-center gap-2 px-6 py-4 bg-gray-50 border-t border-gray-100"
+                      className="hidden md:flex items-center gap-2 px-6 py-4 bg-gray-800 border-t border-gray-700"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <button
                         onClick={(e) => openEdit(e, p)}
-                        className="flex-1 flex items-center justify-center gap-1.5 text-sm font-semibold text-indigo-600 bg-white border border-indigo-200 hover:bg-indigo-50 py-2.5 rounded-xl transition-colors"
+                        className="flex-1 flex items-center justify-center gap-1.5 text-sm font-semibold text-indigo-400 bg-gray-700 border border-gray-600 hover:bg-gray-600 py-2.5 rounded-xl transition-colors"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 112.828 2.828L11.828 15.828a2 2 0 01-1.414.586H8v-2.414a2 2 0 01.586-1.414z" />
@@ -480,7 +480,7 @@ export default function DashboardPage() {
                       </button>
                       <button
                         onClick={(e) => handleToggleActive(e, p)}
-                        className={`flex-1 flex items-center justify-center gap-1.5 text-sm font-semibold py-2.5 rounded-xl border transition-colors ${inactive ? 'text-green-600 bg-white border-green-200 hover:bg-green-50' : 'text-yellow-600 bg-white border-yellow-200 hover:bg-yellow-50'}`}
+                        className={`flex-1 flex items-center justify-center gap-1.5 text-sm font-semibold py-2.5 rounded-xl border transition-colors ${inactive ? 'text-green-400 bg-gray-700 border-gray-600 hover:bg-gray-600' : 'text-yellow-400 bg-gray-700 border-gray-600 hover:bg-gray-600'}`}
                       >
                         {inactive ? (
                           <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -495,7 +495,7 @@ export default function DashboardPage() {
                       </button>
                       <button
                         onClick={(e) => handleDelete(e, p._id, p.name)}
-                        className="flex-1 flex items-center justify-center gap-1.5 text-sm font-semibold text-red-500 bg-white border border-red-200 hover:bg-red-50 py-2.5 rounded-xl transition-colors"
+                        className="flex-1 flex items-center justify-center gap-1.5 text-sm font-semibold text-red-400 bg-gray-700 border border-gray-600 hover:bg-gray-600 py-2.5 rounded-xl transition-colors"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3M4 7h16" />
