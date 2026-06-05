@@ -424,7 +424,7 @@ export default function DashboardPage() {
                             <p className="text-lg font-bold text-blue-400">₹{p.koduthathTotal ?? 0}</p>
                           </div>
                           <div className="pl-4">
-                            <p className="text-xs text-gray-500 mb-1">കിട്ടാനുള്ളത്</p>
+                            <p className="text-xs text-indigo-400 mb-1">ഇനി കിട്ടാനുള്ളത്</p>
                             <p className={`text-lg font-bold ${kittanullath >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                               ₹{Math.abs(kittanullath)}
                             </p>
