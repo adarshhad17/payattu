@@ -12,7 +12,10 @@
       "Bash(curl -s --max-time 3 http://localhost:5000/api/auth/login -X POST -H \"Content-Type: application/json\" -d \"{}\")",
       "Bash(node server.js)",
       "Bash(kill %1)",
-      "Bash(wait)"
+      "Bash(wait)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)"
     ]
   }
 }
