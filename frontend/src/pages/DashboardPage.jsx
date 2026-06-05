@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { fetchPersons, createPerson, updatePerson, deletePerson } from '../store/personsSlice';
 import { addKoduthath } from '../store/koduthathSlice';
 import jsPDF from 'jspdf';
@@ -9,7 +8,6 @@ import * as XLSX from 'xlsx';
 
 export default function DashboardPage() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { list, loading } = useSelector((s) => s.persons);
   const { user } = useSelector((s) => s.auth);
   const isAdmin = user?.role === 'admin';
@@ -168,7 +166,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className={`max-w-5xl mx-auto px-4 py-6 space-y-6 ${!isAdmin ? 'min-h-screen md:bg-transparent bg-gray-800' : ''}`}>
+    <div className={`max-w-5xl mx-auto px-4 py-6 space-y-6 ${!isAdmin ? 'min-h-screen md:bg-transparent bg-pink-100/20' : ''}`}>
 
       {/* Export buttons — admin only, desktop */}
       {isAdmin && (
@@ -236,7 +234,7 @@ export default function DashboardPage() {
           <h2 className="text-base font-semibold text-gray-700 mb-4">ആളെ ചേർക്കുക</h2>
           <form onSubmit={handleAdd} className="flex flex-wrap gap-3 items-end">
             <div className="flex flex-col gap-1 min-w-36">
-              <label className="text-xs text-gray-500">പേര്</label>
+              <label className="text-sm text-pink-600">പേര്</label>
               <input
                 required
                 placeholder="പേര്"
@@ -246,7 +244,7 @@ export default function DashboardPage() {
               />
             </div>
             <div className="flex flex-col gap-1 min-w-28">
-              <label className="text-xs text-gray-500">കൊടുത്തത് (₹)</label>
+              <label className="text-sm text-pink-500">കൊടുത്തത് (₹)</label>
               <input
                 type="number" min="0" placeholder="0"
                 value={form.iGive}
@@ -255,7 +253,7 @@ export default function DashboardPage() {
               />
             </div>
             <div className="flex flex-col gap-1 min-w-28">
-              <label className="text-xs text-gray-500">തന്നത് (₹)</label>
+              <label className="text-sm text-pink-500">തന്നത് (₹)</label>
               <input
                 type="number" min="0" placeholder="0"
                 value={form.theyGive}
@@ -264,7 +262,7 @@ export default function DashboardPage() {
               />
             </div>
             <div className="flex flex-col gap-1 min-w-28">
-              <label className="text-xs text-gray-500">പുതുതായി കൊടുത്തത് (₹)</label>
+              <label className="text-sm text-blue-500">പുതുതായി കൊടുത്തത് (₹)</label>
               <input
                 type="number" min="0" placeholder="0"
                 value={form.koduthath}
@@ -295,7 +293,7 @@ export default function DashboardPage() {
               placeholder="പേര് തിരയുക…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className={`w-full border rounded-xl pl-9 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 ${!isAdmin ? 'bg-gray-900 border-gray-700 text-white placeholder-gray-500 md:bg-white md:border-gray-300 md:text-gray-900 md:placeholder-gray-400' : 'bg-white border-gray-300'}`}
+              className={`w-full border rounded-xl pl-9 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 ${!isAdmin ? 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 md:bg-white md:border-gray-300 md:text-gray-900 md:placeholder-gray-400' : 'bg-white border-gray-300'}`}
             />
             {search && (
               <button
@@ -307,6 +305,11 @@ export default function DashboardPage() {
             )}
           </div>
         </div>
+
+        {/* Total count — admin only */}
+        {isAdmin && (
+          <p className="text-xs text-gray-500">Total = {totalCount}</p>
+        )}
 
         {/* Filter chips */}
         <div className="hidden md:flex flex-wrap gap-2">
@@ -368,7 +371,7 @@ export default function DashboardPage() {
               return (
                 <div
                   key={p._id}
-                  className={`${isAdmin ? 'bg-gray-900 border-pink-400' : (p.koduthathTotal || 0) > 0 ? 'bg-gray-900 border-green-500' : 'bg-gray-900 border-pink-400'} rounded-3xl border shadow-lg overflow-hidden transition-all duration-300 ${inactive ? 'opacity-50' : ''} ${!isAdmin && (p.koduthathTotal || 0) > 0 ? 'opacity-75' : ''}`}
+                  className={`bg-gray-900 rounded-3xl border shadow-lg overflow-hidden transition-all duration-300 ${savedKoduthaths.has(p._id) ? 'border-green-500' : 'border-pink-400'} ${inactive ? 'opacity-50' : ''}`}
                 >
                   {/* Header */}
                   <div className="px-6 pt-8 pb-6">
@@ -382,8 +385,20 @@ export default function DashboardPage() {
                         </span>
                       )}
                     </div>
-                    {/* Balance badge — hidden for parent after koduthath saved */}
-                    {!savedKoduthaths.has(p._id) && (isAdmin || !(p.koduthathTotal > 0)) && (
+                    {/* Post-save banner */}
+                    {savedKoduthaths.has(p._id) && (
+                      <div className="flex flex-col items-center justify-center text-center bg-green-50 rounded-2xl px-6 py-4 w-full -mx-0">
+                        <p className="text-sm font-semibold text-pink-500 mb-1">കൊടുക്കാനില്ല</p>
+                        <div className="flex items-center justify-center gap-2">
+                          <p className="text-sm font-medium text-blue-500">കിട്ടാനുള്ളത് =</p>
+                          <p className="text-2xl font-extrabold text-green-600">
+                            <span className="text-gray-400 text-base mr-1">₹</span>{kittanullath}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                    {/* Balance badge — hidden when koduthath saved */}
+                    {!savedKoduthaths.has(p._id) && !(p.koduthathTotal > 0) && (
                       <div className={`inline-flex flex-col items-start border rounded-2xl px-4 py-3 ${balanceBg}`}>
                         <p className={`text-xs font-semibold mb-0.5 ${balanceColor}`}>{balanceLabel}</p>
                         <p className={`text-2xl font-extrabold leading-none ${balanceColor}`}>{balanceAmount}</p>
@@ -392,76 +407,58 @@ export default function DashboardPage() {
                   </div>
 
                   {/* Stats */}
-                  <div className={`grid ${isAdmin ? 'grid-cols-3' : 'grid-cols-2'} border-t border-gray-800`}>
-                    <div className="px-5 py-5 text-center border-r border-gray-800">
-                      <p className="text-xs text-red-500 mb-2 font-medium tracking-wide uppercase">കൊടുത്തത്</p>
-                      <p className="text-2xl font-extrabold text-white"><span className="text-gray-500 text-base mr-1">₹</span>{p.iGive}</p>
-                    </div>
-                    <div className="px-5 py-5 text-center">
-                      <p className="text-xs text-green-500 mb-2 font-medium tracking-wide uppercase">തന്നത്</p>
-                      <p className="text-2xl font-extrabold text-white"><span className="text-gray-500 text-base mr-1">₹</span>{p.theyGive}</p>
-                    </div>
-                    {isAdmin && (
-                      <div className="px-5 py-5 text-center">
-                        <p className="text-xs text-indigo-500 mb-2 font-medium tracking-wide uppercase">ഇനി കിട്ടാനുള്ളത്</p>
-                        <p className={`text-2xl font-extrabold ${kittanullath > 0 ? 'text-green-600' : 'text-gray-400'}`}>
-                          {kittanullath > 0 ? <><span className="text-gray-300 text-base mr-1">₹</span>{kittanullath}</> : '—'}
-                        </p>
+                  <div className={`border-t border-gray-800 `}>
+                    <div className="grid grid-cols-2">
+                      <div className="px-5 py-5 text-center border-r border-gray-800">
+                        <p className="text-xs text-red-500 mb-2 font-medium tracking-wide uppercase">കൊടുത്തത്</p>
+                        <p className="text-2xl font-extrabold text-white"><span className="text-gray-500 text-base mr-1">₹</span>{p.iGive}</p>
                       </div>
-                    )}
-                  </div>
-
-                  {/* Parent: koduthath input */}
-                  {!isAdmin && (
-                    <div
-                      className="px-6 pt-4 pb-8 border-t border-gray-800"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      {savedKoduthaths.has(p._id) ? (
-                        <div className="grid grid-cols-2 divide-x divide-gray-700">
-                          <div className="pr-4">
-                            <p className="text-xs text-gray-500 mb-1">പുതുതായി കൊടുത്തത്</p>
-                            <p className="text-lg font-bold text-blue-400">₹{p.koduthathTotal ?? 0}</p>
+                      <div className="px-5 py-5 text-center">
+                        <p className="text-xs text-green-500 mb-2 font-medium tracking-wide uppercase">തന്നത്</p>
+                        <p className="text-2xl font-extrabold text-white"><span className="text-gray-500 text-base mr-1">₹</span>{p.theyGive}</p>
+                      </div>
+                    </div>
+                    {(p.koduthathTotal || 0) > 0 ? (
+                        <div className="grid grid-cols-2 border-t border-gray-800">
+                          <div className="px-5 py-5 text-center border-r border-gray-800">
+                            <p className="text-xs text-violet-400 mb-2 font-medium tracking-wide uppercase">പുതുതായി കൊടുത്തത്</p>
+                            <p className="text-2xl font-extrabold text-white"><span className="text-gray-500 text-base mr-1">₹</span>{p.koduthathTotal}</p>
                           </div>
-                          <div className="pl-4">
-                            <p className="text-xs text-indigo-400 mb-1">ഇനി കിട്ടാനുള്ളത്</p>
-                            <p className={`text-lg font-bold ${kittanullath >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                              ₹{Math.abs(kittanullath)}
+                          <div className="px-5 py-5 text-center">
+                            <p className="text-xs text-indigo-400 mb-2 font-medium tracking-wide uppercase">ഇനി കിട്ടാനുള്ളത്</p>
+                            <p className={`text-2xl font-extrabold ${kittanullath > 0 ? 'text-green-400' : 'text-gray-400'}`}>
+                              {kittanullath > 0 ? <><span className="text-gray-500 text-base mr-1">₹</span>{kittanullath}</> : '—'}
                             </p>
                           </div>
                         </div>
                       ) : (
-                        <div className="flex items-center gap-2">
-                          <div className="flex-1">
-                            <p className="text-xs text-violet-600 mb-1">പുതുതായി കൊടുത്തത്</p>
-                            {(p.koduthathTotal || 0) > 0 ? (
-                              <p className="text-2xl font-extrabold text-white">
-                                <span className="text-gray-500 text-base mr-1">₹</span>{p.koduthathTotal}
-                              </p>
-                            ) : (
+                        <div className="px-6 pt-4 pb-6 border-t border-gray-800" onClick={(e) => e.stopPropagation()}>
+                          <div className="flex items-center gap-2">
+                            <div className="flex-1">
+                              <p className="text-xs text-violet-400 mb-3">പുതുതായി കൊടുത്തത്</p>
                               <input
                                 type="number"
                                 min="0"
-                                placeholder="0"
+                                placeholder="ഇന്ന് പയറ്റിയത്..."
                                 value={koduthathInputs[p._id] || ''}
                                 onChange={(e) => setKoduthathInputs((prev) => ({ ...prev, [p._id]: e.target.value }))}
-                                className="w-full border border-gray-400 rounded-xl px-3 py-2.5 text-sm text-gray-900 bg-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                className="w-full border border-gray-600 rounded-xl px-3 py-2.5 text-sm text-white bg-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                               />
+                            </div>
+                            {!!koduthathInputs[p._id] && (
+                              <button
+                                onClick={() => handleKoduthathSave(p._id)}
+                                disabled={koduthathSaving === p._id}
+                                className="mt-5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors disabled:opacity-60"
+                              >
+                                {koduthathSaving === p._id ? '...' : 'Save'}
+                              </button>
                             )}
                           </div>
-                          {!(p.koduthathTotal || 0) && !!koduthathInputs[p._id] && (
-                            <button
-                              onClick={() => handleKoduthathSave(p._id)}
-                              disabled={koduthathSaving === p._id}
-                              className="mt-5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors disabled:opacity-60"
-                            >
-                              {koduthathSaving === p._id ? '...' : 'Save'}
-                            </button>
-                          )}
                         </div>
-                      )}
-                    </div>
-                  )}
+                      )
+                    }
+                  </div>
 
                   {/* Actions — hidden on mobile */}
                   {isAdmin && (
