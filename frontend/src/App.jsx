@@ -5,7 +5,7 @@ import { fetchMe } from './store/authSlice';
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
 import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
+// import RegisterPage from './pages/RegisterPage'; // disabled — registration not public
 import DashboardPage from './pages/DashboardPage';
 import PersonDetailPage from './pages/PersonDetailPage';
 
@@ -32,7 +32,7 @@ export default function App() {
         <main className="flex-1">
           <Routes>
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
+            {/* <Route path="/register" element={<RegisterPage />} /> */}{/* disabled */}
             <Route
               path="/"
               element={

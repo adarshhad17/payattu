@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { login, clearError } from '../store/authSlice';
 
 export default function LoginPage() {
@@ -64,12 +64,7 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <p className="mt-4 text-center text-sm text-gray-500">
-          No account?{' '}
-          <Link to="/register" className="text-indigo-600 hover:underline">
-            Register
-          </Link>
-        </p>
+
       </div>
     </div>
   );
