@@ -244,7 +244,7 @@ export default function DashboardPage() {
               />
             </div>
             <div className="flex flex-col gap-1 min-w-28">
-              <label className="text-sm text-pink-500">കൊടുത്തത് (₹)</label>
+              <label className="text-sm text-pink-500">മുൻപ് കിട്ടാനുള്ളത് (₹)</label>
               <input
                 type="number" min="0" placeholder="0"
                 value={form.iGive}
@@ -308,7 +308,7 @@ export default function DashboardPage() {
 
         {/* Total count — admin only */}
         {isAdmin && (
-          <p className="text-xs text-gray-500">Total = {totalCount}</p>
+          <p className="text-xs text-pink-700">Total = {totalCount}</p>
         )}
 
         {/* Filter chips */}
@@ -378,7 +378,7 @@ export default function DashboardPage() {
                     {/* Name row — full width, no truncate */}
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-xs shrink-0 text-gray-500">#{String(idx + 1).padStart(2, '0')}</span>
-                      <p className="text-xl font-medium capitalize leading-tight text-yellow-400">{p.name}</p>
+                      <p className="text-xl font-medium capitalize leading-tight text-yellow-300">{p.name}</p>
                       {inactive && (
                         <span className="ml-1 inline-block text-xs px-2 py-0.5 rounded-full shrink-0 bg-gray-800 text-gray-500">
                           നിർത്തിവെച്ചത്
@@ -410,7 +410,7 @@ export default function DashboardPage() {
                   <div className={`border-t border-gray-800 `}>
                     <div className="grid grid-cols-2">
                       <div className="px-5 py-5 text-center border-r border-gray-800">
-                        <p className="text-xs text-red-500 mb-2 font-medium tracking-wide uppercase">കൊടുത്തത്</p>
+                        <p className="text-xs text-red-500 mb-2 font-medium tracking-wide uppercase">മുൻപ് കിട്ടാനുള്ളത്</p>
                         <p className="text-2xl font-extrabold text-white"><span className="text-gray-500 text-base mr-1">₹</span>{p.iGive}</p>
                       </div>
                       <div className="px-5 py-5 text-center">
