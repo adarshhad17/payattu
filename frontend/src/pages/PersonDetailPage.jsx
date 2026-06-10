@@ -26,11 +26,6 @@ export default function PersonDetailPage() {
     dispatch(fetchKoduthath(id));
   }, [dispatch, id]);
 
-  useEffect(() => {
-    if (person) {
-      setEditForm({ name: person.name, iGive: person.iGive, theyGive: person.theyGive });
-    }
-  }, [person]);
 
   const handleAddEntry = async (e) => {
     e.preventDefault();
@@ -94,7 +89,10 @@ export default function PersonDetailPage() {
           </div>
           {isAdmin && (
             <button
-              onClick={() => setShowEdit(true)}
+              onClick={() => {
+                setEditForm({ name: person.name, iGive: person.iGive, theyGive: person.theyGive });
+                setShowEdit(true);
+              }}
               className="text-sm text-indigo-500 hover:text-indigo-700 border border-indigo-200 rounded-lg px-3 py-1 transition-colors"
             >
               Edit

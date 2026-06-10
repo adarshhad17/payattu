@@ -192,7 +192,7 @@ export default function DashboardPage() {
       {/* Summary stats — admin: all cards; parent desktop: all cards; parent mobile: only newly given */}
       <div className="hidden md:grid grid-cols-2 md:grid-cols-3 gap-3">
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 text-center">
-          <p className="text-xs text-gray-400 mb-1">കൊടുത്തത് ആകെ</p>
+          <p className="text-xs text-gray-400 mb-1">മുൻപ് കിട്ടാനുള്ളത്</p>
           <p className="text-2xl font-bold text-gray-800">₹{totalIGive}</p>
         </div>
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 text-center">
