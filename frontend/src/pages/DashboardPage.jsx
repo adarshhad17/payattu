@@ -449,7 +449,7 @@ export default function DashboardPage() {
                               <button
                                 onClick={() => handleKoduthathSave(p._id)}
                                 disabled={koduthathSaving === p._id}
-                                className="mt-5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors disabled:opacity-60"
+                                className="mt-5 bg-green-600 hover:bg-indigo-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors disabled:opacity-60"
                               >
                                 {koduthathSaving === p._id ? '...' : 'Save'}
                               </button>
