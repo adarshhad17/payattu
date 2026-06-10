@@ -514,7 +514,7 @@ export default function DashboardPage() {
                   <tr className="bg-green-50 text-xs text-pink-500 uppercase tracking-wide divide-x divide-pink-200 font-medium border-b border-pink-100">
                     <th className="text-left px-3 py-3 font-medium w-8">#</th>
                     <th className="text-left px-5 py-3 font-medium">പേര്</th>
-                    <th className="text-right px-5 py-3 font-medium">കൊടുത്തത്</th>
+                    <th className="text-right px-5 py-3 font-medium">കിട്ടാനുള്ളത്</th>
                     <th className="text-right px-5 py-3 font-medium">തന്നത്</th>
                     <th className="text-right px-5 py-3 font-medium">കൊടുക്കാനുള്ളത്</th>
                     <th className="text-right px-5 py-3 font-medium">പുതുതായി കൊടുത്തത്</th>
