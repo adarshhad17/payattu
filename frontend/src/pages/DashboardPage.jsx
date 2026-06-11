@@ -384,6 +384,16 @@ export default function DashboardPage() {
                           നിർത്തിവെച്ചത്
                         </span>
                       )}
+                      {isAdmin && (
+                        <button
+                          onClick={(e) => openEdit(e, p)}
+                          className="ml-auto shrink-0 p-2 rounded-xl text-indigo-400 bg-gray-800 hover:bg-gray-700 transition-colors"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 112.828 2.828L11.828 15.828a2 2 0 01-1.414.586H8v-2.414a2 2 0 01.586-1.414z" />
+                          </svg>
+                        </button>
+                      )}
                     </div>
                     {/* Post-save banner */}
                     {savedKoduthaths.has(p._id) && (
