@@ -105,6 +105,12 @@ export default function DashboardPage() {
     const diff = (p.theyGive || 0) - (p.iGive || 0);
     return s + (diff < 0 ? Math.abs(diff) : 0);
   }, 0);
+  const totalIniKittanullath = list.reduce((s, p) => {
+    if (!(p.koduthathTotal > 0)) return s;
+    const diff = (p.theyGive || 0) - (p.iGive || 0);
+    const ini = p.koduthathTotal - diff;
+    return s + (ini > 0 ? ini : 0);
+  }, 0);
   const newlyGivenCount = list.filter(p => (p.koduthathTotal || 0) > 0).length;
   const totalCount = list.length;
 
@@ -211,6 +217,12 @@ export default function DashboardPage() {
           <p className="text-xs text-gray-400 mb-1">കൊടുക്കാനുള്ളത് ആകെ</p>
           <p className="text-2xl font-bold text-red-500">₹{totalKodukkanullath}</p>
         </div>
+        {isAdmin && (
+          <div className="bg-white rounded-2xl border border-green-200 shadow-sm p-4 text-center">
+            <p className="text-xs text-gray-400 mb-1">ഇനി കിട്ടാനുള്ളത്</p>
+            <p className="text-2xl font-bold text-green-600">₹{totalIniKittanullath}</p>
+          </div>
+        )}
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 text-center">
           <p className="text-xs text-gray-400 mb-1">പുതുതായി കൊടുത്തത്</p>
           <p className="text-2xl font-bold text-gray-800">
@@ -681,15 +693,17 @@ export default function DashboardPage() {
                 <input
                   type="number" min="0"
                   value={editForm.theyGive}
+                  placeholder='0'
                   onChange={(e) => setEditForm({ ...editForm, theyGive: e.target.value })}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
                 />
               </div>
               <div>
-                <label className="text-xs text-gray-500 mb-1 block">കൊടുത്തത് ആകെ (koduthath) (₹)</label>
+                <label className="text-xs text-blue-600 mb-1 block">പുതുതായി കൊടുത്തത്</label>
                 <input
                   type="number" min="0"
                   value={editForm.koduthath}
+                  placeholder='0'
                   onChange={(e) => setEditForm({ ...editForm, koduthath: e.target.value })}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
                 />
