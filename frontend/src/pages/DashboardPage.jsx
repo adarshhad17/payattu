@@ -60,7 +60,7 @@ export default function DashboardPage() {
   const openEdit = (e, p) => {
     e.stopPropagation();
     setEditTarget(p);
-    setEditForm({ name: p.name, iGive: p.iGive, theyGive: p.theyGive, koduthath: p.koduthathTotal || 0 });
+    setEditForm({ name: p.name, iGive: p.iGive, theyGive: p.theyGive || '', koduthath: p.koduthathTotal || '' });
   };
 
   const handleEdit = async (e) => {
