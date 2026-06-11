@@ -5,6 +5,7 @@ import { addKoduthath } from '../store/koduthathSlice';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
+import { Document, Packer, Paragraph, Table, TableRow, TableCell, TextRun, WidthType, AlignmentType, HeadingLevel } from 'docx';
 
 export default function DashboardPage() {
   const dispatch = useDispatch();
@@ -171,6 +172,43 @@ export default function DashboardPage() {
     doc.save('payyatu_data.pdf');
   };
 
+  const handleExportWord = async () => {
+    const headers = ['#', 'പേര്', 'മുൻപ് കിട്ടാനുള്ളത്', 'തന്നത്', 'കൊടുക്കാനുള്ളത്', 'കിട്ടാനുള്ളത്', 'പുതുതായി കൊടുത്തത്', 'ഇനി കിട്ടാനുള്ളത്'];
+    const rows = exportRows();
+    const colWidth = 1100;
+    const headerRow = new TableRow({
+      children: headers.map(h => new TableCell({
+        width: { size: colWidth, type: WidthType.DXA },
+        children: [new Paragraph({ children: [new TextRun({ text: h, bold: true, size: 18 })], alignment: AlignmentType.CENTER })],
+      })),
+    });
+    const dataRows = rows.map((r, i) => new TableRow({
+      children: [
+        new TableCell({ width: { size: colWidth, type: WidthType.DXA }, children: [new Paragraph(String(i + 1))] }),
+        new TableCell({ width: { size: colWidth, type: WidthType.DXA }, children: [new Paragraph(String(r['പേര്']))] }),
+        new TableCell({ width: { size: colWidth, type: WidthType.DXA }, children: [new Paragraph(String(r['കൊടുത്തത്']))] }),
+        new TableCell({ width: { size: colWidth, type: WidthType.DXA }, children: [new Paragraph(String(r['തന്നത്']))] }),
+        new TableCell({ width: { size: colWidth, type: WidthType.DXA }, children: [new Paragraph(String(r['കൊടുക്കാനുള്ളത്']))] }),
+        new TableCell({ width: { size: colWidth, type: WidthType.DXA }, children: [new Paragraph(String(r['കിട്ടാനുള്ളത്']))] }),
+        new TableCell({ width: { size: colWidth, type: WidthType.DXA }, children: [new Paragraph(String(r['പുതുതായി കൊടുത്തത്']))] }),
+        new TableCell({ width: { size: colWidth, type: WidthType.DXA }, children: [new Paragraph(String(r['ഇനി കിട്ടാനുള്ളത്']))] }),
+      ],
+    }));
+    const doc = new Document({
+      sections: [{
+        children: [
+          new Paragraph({ text: 'Payyatu - Financial Summary', heading: HeadingLevel.HEADING_1 }),
+          new Paragraph({ text: `Generated: ${new Date().toLocaleString('en-IN')}`, spacing: { after: 200 } }),
+          new Table({ rows: [headerRow, ...dataRows], width: { size: 100, type: WidthType.PERCENTAGE } }),
+        ],
+      }],
+    });
+    const blob = await Packer.toBlob(doc);
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'payyatu_data.docx'; a.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className={`max-w-5xl mx-auto px-4 py-6 space-y-6 ${!isAdmin ? 'min-h-screen md:bg-transparent bg-pink-100/20' : ''}`}>
 
@@ -190,6 +228,10 @@ export default function DashboardPage() {
             <button onClick={handleExportPDF}
               className="flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded-lg border border-red-300 text-red-600 hover:bg-red-50 transition-colors">
               ⬇ PDF
+            </button>
+            <button onClick={handleExportWord}
+              className="flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded-lg border border-blue-300 text-blue-600 hover:bg-blue-50 transition-colors">
+              ⬇ Word
             </button>
           </div>
         </div>
@@ -676,7 +718,7 @@ export default function DashboardPage() {
                   required
                   value={editForm.name}
                   onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                  className="w-full border border-gray-300 text-pink-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
                 />
               </div>
               <div>
